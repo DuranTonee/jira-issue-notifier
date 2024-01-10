@@ -1,0 +1,5 @@
+__pycache__
+/venv
+notes.txt
+test.py
+/jira_notifications/jira_notifications_app/.env

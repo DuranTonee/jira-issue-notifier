@@ -1,0 +1,4 @@
+aiogram==2.25.1
+Django==4.2.3
+psycopg2_binary==2.9.6
+Requests==2.31.0
