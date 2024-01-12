@@ -80,7 +80,7 @@ def get_id_from_key_table(issue_key) -> int:
     return assignee_id, creator_id
 
 
-conn = psycopg2.connect(host='localhost', dbname='postgres', user='postgres', password='damir123', port=5432)
+conn = psycopg2.connect(host='127.0.0.1', dbname='postgres', user='postgres', password='damir123', port=5432)
 cur = conn.cursor()
 
 if __name__ == "__main__":
