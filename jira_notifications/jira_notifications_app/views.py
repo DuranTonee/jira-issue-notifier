@@ -22,7 +22,7 @@ def send_message(assignee_id, creator_id, admin_id, message):
     if assignee_id == None:
         params = {
             'chat_id': admin_id,
-            'text': f'НЕНАЗНАЧЕННАЯ ЗАДАЧА\n{message}',
+            'text': f'UNASSIGNED ISSUE\n{message}',
             'parse_mode': 'html',
             'disable_web_page_preview': True
         }
@@ -65,7 +65,7 @@ def index(request):
         try: 
             response = request.body
             data = json.loads(response)  # Parse the response as JSON
-            print(data)
+            # print(data)
             issue_key = data['issue']['key']
             domain = urlparse(data['issue']['self']).netloc
 
@@ -75,7 +75,7 @@ def index(request):
                 issue_name = data['issue']['fields']['summary']
                 tg_author_username = get_username_by_id(get_id(comment_author))
                 tg_assignee_id, tg_creator_id = get_id_from_key_table(issue_key)
-                message = f'На задаче <a href="https://{domain}/browse/{issue_key}">{issue_key}</a> "{issue_name}" был оставлен комментарий.\nАвтор: {comment_author} ({tg_author_username})\nСодержание: {comment_body}'
+                message = f'A comment was left on issue <a href="https://{domain}/browse/{issue_key}">{issue_key}</a> "{issue_name}".\nAuthor: {comment_author} ({tg_author_username})\nComment: {comment_body}'
                 apiURL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
                 if tg_assignee_id == "None":
                     params = {
@@ -127,7 +127,7 @@ def index(request):
                 tg_creator_id = get_id(issue_creator)
                 tg_creator_username = get_username_by_id(tg_creator_id)
 
-                message = f'Задача: <a href="https://{domain}/browse/{issue_key}">{issue_key}</a> "{issue_name}"\nСтатус: {issue_status}\nИсполнитель: {issue_assignee} ({tg_assignee_username})\nСоздатель: {issue_creator} ({tg_creator_username})'
+                message = f'Issue: <a href="https://{domain}/browse/{issue_key}">{issue_key}</a> "{issue_name}"\nStatus: {issue_status}\nAssignee: {issue_assignee} ({tg_assignee_username})\nCreator: {issue_creator} ({tg_creator_username})'
                 send_message(tg_assignee_id, tg_creator_id, admin_id, message)
 
                 if data['webhookEvent'] == 'jira:issue_created':
