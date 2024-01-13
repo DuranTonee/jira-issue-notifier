@@ -1,5 +1,5 @@
 # Jira Issue Notifications Telegram Bot
-If for some reason you can't use [Telegram Integration For Jira](https://marketplace.atlassian.com/apps/1218556/telegram-integration-for-jira), it is possible to use [webhooks](https://developer.atlassian.com/server/jira/platform/webhooks/) to notify team members in Telegram. This Django projects allows it with PostgreSQL integration.
+If for some reason you can't use [Telegram Integration For Jira](https://marketplace.atlassian.com/apps/1218556/telegram-integration-for-jira), it is possible to use [webhooks](https://developer.atlassian.com/server/jira/platform/webhooks/) to notify team members in Telegram. This Django project allows it and serves as a Telegram bot to receive notifications from Atlassian Jira and forward them to users providing the necessary data. The bot allows users to register with their Jira username, and it sends notifications about issue updates and comments with PostgreSQL integration. 
 ## Features
 1. **User registration**
    - Users can register with the bot using the _/register_ command, providing their Jira username. The data is stored in the database (check [dp.py](https://github.com/DuranTonee/jira-issue-notifier/blob/main/jira_notifications/jira_notifications_app/db.py))
