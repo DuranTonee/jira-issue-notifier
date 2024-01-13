@@ -65,7 +65,7 @@ def index(request):
         try: 
             response = request.body
             data = json.loads(response)  # Parse the response as JSON
-            # print(data)
+            print(data)
             issue_key = data['issue']['key']
             domain = urlparse(data['issue']['self']).netloc
 
@@ -127,13 +127,23 @@ def index(request):
                 tg_creator_id = get_id(issue_creator)
                 tg_creator_username = get_username_by_id(tg_creator_id)
 
-                message = f'Issue: <a href="https://{domain}/browse/{issue_key}">{issue_key}</a> "{issue_name}"\nStatus: {issue_status}\nAssignee: {issue_assignee} ({tg_assignee_username})\nCreator: {issue_creator} ({tg_creator_username})'
-                send_message(tg_assignee_id, tg_creator_id, admin_id, message)
-
                 if data['webhookEvent'] == 'jira:issue_created':
+                    message = f'ISSUE CREATED.\nIssue: <a href="https://{domain}/browse/{issue_key}">{issue_key}</a> "{issue_name}"\nStatus: {issue_status}\nAssignee: {issue_assignee} ({tg_assignee_username})\nCreator: {issue_creator} ({tg_creator_username})'
+                    send_message(tg_assignee_id, tg_creator_id, admin_id, message)
+
                     add_to_key_table(issue_key, tg_assignee_id, tg_creator_id)
                     print('added to db')
                 elif data['webhookEvent'] == 'jira:issue_updated':
+                    changelog_items = data['changelog']['items']
+                    for item in changelog_items:
+                        # Accessing the specific parameters within each item
+                        changed_field = item['field']
+                        changed_from = item['fromString']
+                        changed_to = item['toString']
+
+                    message = f'ISSUE UPDATED.\nIssue: <a href="https://{domain}/browse/{issue_key}">{issue_key}</a> "{issue_name}"\nStatus: {issue_status}\nAssignee: {issue_assignee} ({tg_assignee_username})\nCreator: {issue_creator} ({tg_creator_username})\n\nCHANGES:\n{changed_field}. {changed_from} → {changed_to}'
+                    send_message(tg_assignee_id, tg_creator_id, admin_id, message)
+
                     change_key_table(issue_key, tg_assignee_id)
                     print('changed db')
             elif data['webhookEvent'] == 'jira:issue_deleted':

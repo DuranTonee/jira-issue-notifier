@@ -3,8 +3,8 @@
 1. $ ngrok http 8000
 refer to https://dashboard.ngrok.com/get-started/setup
 for token: https://dashboard.ngrok.com/get-started/your-authtoken
-2. change the url at https://damirtestheyo.atlassian.net/plugins/servlet/webhooks# (use your domain)
-3. change the host at settings.py in ALLOWED_HOSTS
+2. change the url at https://YOURDOMAIN.atlassian.net/plugins/servlet/webhooks#
+3. change the host at settings.py in ALLOWED_HOSTS (or just add "*")
 4. $ cd jira_notifications
 5. $ gunicorn jira_notifications.wsgi
 or (for development only) $ python manage.py runserver
